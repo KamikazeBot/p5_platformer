@@ -5,6 +5,8 @@ function Player(x,y,h,w,c){
     this.width = w;
     this.color = c;
     this.xdir = 0;
+    this.ydir = 0;
+    this.jumping = false;
     this.render = function(){
         push();
         fill(this.color);
@@ -12,12 +14,26 @@ function Player(x,y,h,w,c){
         rect(this.x,this.y, this.width, this.height);
         pop();
     }
-    this.setDir = function(dir){
+    this.setXDir = function(dir){
         this.xdir = dir;
+    }
+    this.jump = function(){
+        if(this.jumping === false){
+            this.ydir = -15;
+            this.jumping = true;
+        }
     }
     this.move = function(){
         if((this.x>= 5 && this.xdir === -1) || (this.x<=width-(this.xdir*5)-this.width && this.xdir === 1)){
-            this.x += this.xdir*5;
+            this.x += this.xdir*15;
         }
+        this.y += this.ydir;
+        if(this.y < height-75){
+            this.ydir += 1;
+        }else{
+            this.ydir = 0;
+            this.jumping = false;
+        }
+        console.log(this.ydir);
     }
 }
